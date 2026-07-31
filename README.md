@@ -6,6 +6,8 @@ acceptance reports.
 
 [Open the live demo](https://stomeonst.github.io/delivery-acceptance-workbench/)
 
+[日本語記事: モバイルゲームの公開前QAで「再現できない」を減らす、4つの証跡](https://stomeonst.github.io/delivery-acceptance-workbench/articles/mobile-game-release-evidence-ja.html)
+
 ![Desktop preview](assets/desktop.png)
 
 ## What the full package checks
@@ -48,4 +50,3 @@ quoted separately.
 
 This repository contains the browser demo and product evidence. The commercial
 Python source and reusable rule files are delivered with the paid package.
-

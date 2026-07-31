@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="モバイルゲームの公開前QAで、再現不能な不具合を減らすために残すべき4つの証跡を解説します。">
+  <title>モバイルゲームの公開前QAで「再現できない」を減らす、4つの証跡</title>
+  <style>
+    :root {
+      --ink: #17201d;
+      --paper: #faf7ef;
+      --paper-dark: #f0eadc;
+      --signal: #ff6a2a;
+      --mint: #9fe0c3;
+      --muted: #5e6964;
+      --line: rgba(23, 32, 29, 0.18);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: "Avenir Next", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+      line-height: 1.85;
+    }
+    header {
+      background: var(--ink);
+      color: var(--paper);
+      padding: 20px clamp(22px, 6vw, 84px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+    header a { color: inherit; text-decoration: none; }
+    .brand { font-weight: 800; letter-spacing: .04em; }
+    .back { color: var(--mint); font-size: 14px; }
+    main { max-width: 900px; margin: 0 auto; padding: 86px 24px 110px; }
+    .eyebrow {
+      color: var(--signal);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .16em;
+      margin: 0 0 20px;
+    }
+    h1 {
+      font-family: "Iowan Old Style", "Hiragino Mincho ProN", "Yu Mincho", serif;
+      font-size: clamp(42px, 7vw, 76px);
+      line-height: 1.18;
+      letter-spacing: -.035em;
+      margin: 0;
+    }
+    .dek { color: var(--muted); font-size: 20px; margin: 30px 0 0; max-width: 760px; }
+    .byline { border-top: 1px solid var(--line); margin: 42px 0 64px; padding-top: 18px; font-size: 14px; color: var(--muted); }
+    h2 {
+      font-family: "Iowan Old Style", "Hiragino Mincho ProN", "Yu Mincho", serif;
+      font-size: 34px;
+      line-height: 1.35;
+      margin: 68px 0 22px;
+    }
+    h3 { font-size: 19px; margin: 0 0 8px; }
+    p { margin: 0 0 22px; }
+    .lead { font-size: 19px; }
+    .evidence-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin: 30px 0; }
+    .evidence-card { background: var(--paper-dark); border-top: 4px solid var(--signal); padding: 24px; }
+    .evidence-card span { color: var(--signal); font-size: 12px; font-weight: 800; letter-spacing: .14em; }
+    .evidence-card p { margin: 0; color: var(--muted); }
+    table { width: 100%; border-collapse: collapse; margin: 28px 0; font-size: 15px; }
+    th, td { border-bottom: 1px solid var(--line); padding: 15px 12px; text-align: left; vertical-align: top; }
+    th { background: var(--ink); color: var(--paper); }
+    .callout { background: var(--ink); color: var(--paper); padding: 30px; margin: 38px 0; }
+    .callout strong { color: var(--mint); }
+    .checklist { padding-left: 1.4em; }
+    .checklist li { margin-bottom: 10px; }
+    .sources { border-top: 1px solid var(--line); margin-top: 72px; padding-top: 28px; font-size: 14px; color: var(--muted); }
+    .sources a { color: var(--ink); }
+    .cta { display: inline-block; margin-top: 24px; background: var(--signal); color: var(--ink); padding: 14px 20px; font-weight: 800; text-decoration: none; }
+    @media (max-width: 680px) {
+      .evidence-grid { grid-template-columns: 1fr; }
+      header { align-items: flex-start; flex-direction: column; }
+      th, td { padding: 12px 8px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a class="brand" href="../index.html">Delivery Acceptance Workbench</a>
+    <a class="back" href="../index.html">デモへ戻る</a>
+  </header>
+  <main>
+    <p class="eyebrow">MOBILE GAME RELEASE QA</p>
+    <h1>モバイルゲームの公開前QAで<br>「再現できない」を減らす、4つの証跡</h1>
+    <p class="dek">不具合の件数を増やすより、開発者が同じ状態を再現できる報告を残す。小規模チームでも回せる公開前チェックの組み立て方を整理します。</p>
+    <p class="byline">曲刚（Gang Qu）｜2026年8月1日</p>
+
+    <p class="lead">「ホーム画面で落ちました」。この一文だけでは、担当者はビルドを探し、端末を推測し、プレイヤーが何をしたかを聞き直すところから始めます。修正時間より確認時間の方が長くなりやすい報告です。</p>
+    <p>公開前QAで価値があるのは、発見した人の記憶に頼らず、別の担当者が同じ状態へ戻れる証拠です。最低限、次の4点を一つの報告にまとめます。</p>
+
+    <div class="evidence-grid">
+      <article class="evidence-card">
+        <span>01 / BUILD</span>
+        <h3>対象ビルド</h3>
+        <p>アプリのバージョン、ビルド番号、配布チャンネルを固定します。</p>
+      </article>
+      <article class="evidence-card">
+        <span>02 / DEVICE</span>
+        <h3>実行環境</h3>
+        <p>端末、OS、画面向き、通信状態を記録します。</p>
+      </article>
+      <article class="evidence-card">
+        <span>03 / PATH</span>
+        <h3>操作経路</h3>
+        <p>開始地点から発生までを、短い番号付き手順で残します。</p>
+      </article>
+      <article class="evidence-card">
+        <span>04 / RESULT</span>
+        <h3>期待値と実結果</h3>
+        <p>期待した状態、実際の状態、画像やログを一緒に保存します。</p>
+      </article>
+    </div>
+
+    <h2>ストアの自動テストを「入口」にする</h2>
+    <p>Google Playの公開前レポートは、アップロードしたアプリを複数のテスト端末で自動操作し、安定性、Android互換性、パフォーマンス、アクセシビリティ、セキュリティの問題候補を示します。端末差を広く見る入口として有効です。</p>
+    <p>AppleのTestFlightでは、テスターがスクリーンショット、コメント、クラッシュに関する情報を送れます。App Store Connectでは、プラットフォーム、OS、ビルド、端末などでフィードバックを絞り込めます。</p>
+    <div class="callout"><strong>自動レポートだけで公開可否は決めません。</strong> 自動操作が通らないチュートリアル、時間限定イベント、課金後の状態、複数人プレイなどは、業務上重要なシナリオを別に定義して確認します。</div>
+
+    <h2>機能名ではなく、失敗した時の影響で並べる</h2>
+    <p>チェック項目を画面順に並べると、軽微な表示崩れと進行不能が同じ一行になります。公開判断では、プレイヤーへの影響と復旧手段を基準にした方が優先順位を共有しやすくなります。</p>
+    <table>
+      <thead>
+        <tr><th>シナリオ</th><th>失敗時の影響</th><th>残す証跡</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>初回起動と引き継ぎ</td><td>ゲーム開始不可、既存データ消失</td><td>アカウント状態、操作動画、セーブ前後の識別情報</td></tr>
+        <tr><td>課金と付与</td><td>支払い後にアイテム未反映</td><td>テスト注文、時刻、付与前後、再起動後の状態</td></tr>
+        <tr><td>チュートリアル</td><td>進行不能、離脱</td><td>開始条件、各手順、停止位置、再起動後の挙動</td></tr>
+        <tr><td>通知と復帰</td><td>誤導、復帰時クラッシュ</td><td>通知内容、遷移先、バックグラウンド時間、端末情報</td></tr>
+      </tbody>
+    </table>
+
+    <h2>30分で作る受け入れパック</h2>
+    <ol class="checklist">
+      <li>今回の変更で売上、継続率、プレイヤーデータに影響するシナリオを3件に絞る。</li>
+      <li>各シナリオに、開始条件、操作、期待結果、必要証跡を一行ずつ書く。</li>
+      <li>対象ビルドと端末一覧を固定し、実行者が変わっても同じ条件を使えるようにする。</li>
+      <li>失敗報告には、ビルド、端末、操作経路、期待値と実結果がそろっているかを確認する。</li>
+      <li>修正後は同じ手順を再実行し、結果と証跡を更新する。</li>
+    </ol>
+    <p>この形にすると、「確認済み」という言葉を、誰でも追える記録へ置き換えられます。公開直前に必要なのは長い報告書ではありません。チームが同じ判断を繰り返せる、小さく明確な受け入れパックです。</p>
+    <a class="cta" href="../index.html">受け入れチェックのデモを見る</a>
+
+    <section class="sources">
+      <h2>参照資料</h2>
+      <p>以下は2026年8月1日に内容を確認した公式資料です。</p>
+      <ul>
+        <li><a href="https://developer.android.com/guide/app-bundle/test">Android Developers: Build and test your Android App Bundle</a></li>
+        <li><a href="https://developer.apple.com/jp/testflight/">Apple Developer: TestFlightでベータ版テストが簡単に</a></li>
+        <li><a href="https://developer.apple.com/help/app-store-connect/test-a-beta-version/view-tester-feedback">Apple Developer: View tester feedback</a></li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>
