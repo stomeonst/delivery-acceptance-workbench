@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A local demo for checking software release and workflow handoff packages with deterministic rules.">
+  <title>Delivery Acceptance Workbench</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+  <header class="topbar">
+    <a class="brand" href="#top" aria-label="Delivery Acceptance Workbench home">
+      <span class="brand-mark">QA</span>
+      <span>Delivery Acceptance Workbench</span>
+    </a>
+    <div class="topbar-meta">
+      <span class="live-dot" aria-hidden="true"></span>
+      <span>Runs locally</span>
+      <span class="privacy">No file upload</span>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">DELIVERY EVIDENCE DESK 1.0</p>
+        <h1>Before delivery,<br><em>turn uncertainty into evidence.</em></h1>
+        <p class="hero-lede">Check files, fields, document sections, and run evidence against explicit rules. Every result has a source and every failure can be reproduced.</p>
+        <div class="hero-actions">
+          <a class="primary-button" href="#workbench">Try the examples</a>
+          <a class="text-link" href="#service">See what is included <span>↘</span></a>
+        </div>
+      </div>
+      <div class="hero-proof" aria-label="Verified local test results">
+        <span class="proof-label">VERIFIED LOCAL TEST RESULTS</span>
+        <strong>89</strong>
+        <span>positive checks passed</span>
+        <div class="proof-rule"></div>
+        <strong class="proof-fail">14</strong>
+        <span>defects correctly blocked</span>
+      </div>
+    </section>
+
+    <section class="manifesto" aria-label="Value statement">
+      <p>Fast delivery still needs reliable evidence.</p>
+      <p class="manifesto-focus">Make acceptance criteria repeatable and reviewable.</p>
+    </section>
+
+    <section class="workbench" id="workbench">
+      <div class="workbench-head">
+        <div>
+          <p class="section-index">01 / LIVE PROOF</p>
+          <h2>Workbench</h2>
+        </div>
+        <p>Select a realistic sample and see how the rules reach a deterministic result. You can also choose local files. Processing stays in the current browser.</p>
+      </div>
+
+      <div class="desk">
+        <aside class="control-panel">
+          <div class="control-block">
+            <span class="control-label">Acceptance template</span>
+            <div class="segmented" role="group" aria-label="Acceptance template">
+              <button class="template-button active" type="button" data-template="software">Software release</button>
+              <button class="template-button" type="button" data-template="workflow">Workflow handoff</button>
+            </div>
+          </div>
+
+          <div class="control-block">
+            <span class="control-label">Load a sample</span>
+            <button class="sample-button active" type="button" data-sample="software-pass">
+              <span class="sample-icon pass">✓</span>
+              <span><strong>Passing software release</strong><small>26 checks</small></span>
+            </button>
+            <button class="sample-button" type="button" data-sample="workflow-pass">
+              <span class="sample-icon pass">✓</span>
+              <span><strong>Passing workflow handoff</strong><small>32 checks</small></span>
+            </button>
+            <button class="sample-button" type="button" data-sample="workflow-fail">
+              <span class="sample-icon fail">!</span>
+              <span><strong>Incomplete workflow handoff</strong><small>14 failures</small></span>
+            </button>
+          </div>
+
+          <div class="control-block upload-block">
+            <span class="control-label">Check local files</span>
+            <label class="upload-label" for="file-input">
+              <span>Select multiple files</span>
+              <small>Markdown, CSV, and JSON</small>
+            </label>
+            <input id="file-input" type="file" multiple accept=".md,.csv,.json,.txt">
+          </div>
+        </aside>
+
+        <div class="results-panel" aria-live="polite">
+          <div class="result-summary">
+            <div class="status-seal pass" id="status-seal">
+              <span id="status-word">PASS</span>
+            </div>
+            <div class="summary-copy">
+              <span class="summary-kicker">Acceptance result</span>
+              <h3 id="summary-title">Software release package is ready</h3>
+              <p id="summary-description">Required files, document sections, and evidence fields match the active rules.</p>
+            </div>
+            <div class="score">
+              <strong id="score-passed">26</strong>
+              <span>/</span>
+              <span id="score-total">26</span>
+              <small>checks passed</small>
+            </div>
+          </div>
+
+          <div class="evidence-header">
+            <span>Rules and evidence</span>
+            <div class="legend">
+              <span><i class="legend-dot pass"></i>Passed</span>
+              <span><i class="legend-dot fail"></i>Failed</span>
+            </div>
+          </div>
+
+          <div class="evidence-list" id="evidence-list"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="service" id="service">
+      <div class="service-intro">
+        <p class="section-index">02 / PRODUCTIZED SERVICE</p>
+        <h2>Start with reusable acceptance rules</h2>
+        <p>Turn delivery expectations into explicit rules, examples, reports, and handoff evidence. Use it for software releases, automation workflows, content packages, and data deliveries.</p>
+      </div>
+      <div class="offer-card">
+        <div class="offer-topline">
+          <span>Source code package</span>
+          <span>Version 1.0</span>
+        </div>
+        <div class="price"><sup>$</sup>19 <small>/ one license</small></div>
+        <ul>
+          <li>Cross-platform Python source</li>
+          <li>Two reusable rule templates</li>
+          <li>Passing and failing examples</li>
+          <li>JSON and offline HTML reports</li>
+          <li>Interactive local demo</li>
+        </ul>
+        <p class="offer-note">The package runs locally and does not upload customer files.</p>
+        <a class="primary-button" href="mailto:stomeonst123@gmail.com?subject=Delivery%20Acceptance%20Workbench&amp;body=Hi%20Gang%2C%0A%0AI%27m%20interested%20in%20Delivery%20Acceptance%20Workbench.%0AMy%20delivery%20type%20is%3A%0AThe%20checks%20I%20need%20are%3A%0A%0AThanks%2C">Request the full package</a>
+      </div>
+    </section>
+
+    <section class="boundaries">
+      <p class="section-index">03 / TRUST BOUNDARIES</p>
+      <div class="boundary-grid">
+        <article>
+          <span>01</span>
+          <h3>Deterministic checks</h3>
+          <p>The same input and rule file produce a repeatable conclusion.</p>
+        </article>
+        <article>
+          <span>02</span>
+          <h3>Traceable evidence</h3>
+          <p>Each failure points to a file, field, section, or technical parameter.</p>
+        </article>
+        <article>
+          <span>03</span>
+          <h3>Local first</h3>
+          <p>Customer files stay local. No account or external API is required.</p>
+        </article>
+        <article>
+          <span>04</span>
+          <h3>Human sign-off</h3>
+          <p>Business decisions, permissions, and exceptions remain with the responsible reviewer.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span>Delivery Acceptance Workbench</span>
+    <span>Local source code package, version 1.0</span>
+  </footer>
+  <script src="app.js"></script>
+</body>
+</html>
